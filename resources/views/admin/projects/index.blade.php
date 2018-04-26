@@ -1,0 +1,76 @@
+@extends('layouts.app')
+
+@section('content')
+            <div class="panel panel-primary">
+                <div class="panel-heading">Dashboard</div>
+                <div class="panel-body">
+                    @if (session('notification'))
+                        <div class="alert alert-succes">
+                            {{session('notification')}}
+                        </div>
+                    @endif
+
+                    @if (count($errors) > 0)
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach($errors->all() as $error)
+                                    <li>{{$error}}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    <form action="" method="POST">
+                        {{ csrf_field() }}
+                        <div class="form-group">
+                            <label for="name">Nombre:</label>
+                            <input type="name" name="name" class="form-control" value="{{old('name')}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Descripción:</label>
+                            <input type="text" name="description" class="form-control" value="{{old('description')}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="start">Fecha de Inicio:</label>
+                            <input type="date" name="start" class="form-control" value="{{old('start', date('Y-m-d'))}}">
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary">Registrar Proyecto</button>
+                        </div>
+                    </form>
+
+                    <table class="table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Nombre:</th>
+                                <th>Descripción:</th>
+                                <th>Fecha de Inicio:</th>
+                                <th>Opciones:</th>
+                            </tr>
+                            <tbody>
+                                @foreach($projects as $project)
+                                <tr>
+                                    <td>{{$project->name}}</td>
+                                    <td>{{$project->description}}</td>
+                                    <td>{{$project->start ?: 'No registrado'}}</td>
+                                    <td>
+                                        @if($project->trashed())
+                                        <a href="{{url('/proyecto')}}/{{$project->id}}/reactivar
+                                            " class="btn btn-sm btn-success" title="Reactivar">
+                                            <span class="glyphicon glyphicon-ok"></span></a>
+                                        @else
+                                        <a href="{{url('/proyecto')}}/{{$project->id}}
+                                            " class="btn btn-sm btn-primary" title="Editar">
+                                            <span class="glyphicon glyphicon-pencil"></span></a>
+                                        <a href="{{url('/proyecto')}}/{{$project->id}}/eliminar
+                                            " class="btn btn-sm btn-danger" title="Desactivar">
+                                            <span class="glyphicon glyphicon-remove"></span></a>
+                                        @endif
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+@endsection

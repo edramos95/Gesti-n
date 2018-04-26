@@ -20,14 +20,6 @@ class UsersTableSeeder extends Seeder
         	'role' => 0
         ]);
 
-        //Soporte
-        User::create([
-        	'name' => 'Delia',
-        	'email' => 'delia_lopez01@hotmail.com',
-        	'password' => bcrypt('lord660117'),
-        	'role' => 1
-        ]);
-
         //Cliente
         User::create([
         	'name' => 'Jonathan',

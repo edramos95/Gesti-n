@@ -24,7 +24,11 @@ class CreateUsersTable extends Migration
             //1 = Soporte
             //2 = Cliente
 
+            $table->integer('selected_project_id')->unsigned()->nullable();
+            $table->foreign('selected_project_id')->references('id')->on('projects');
+
             $table->rememberToken();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

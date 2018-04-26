@@ -18,10 +18,15 @@ class CreateIncidentsTable extends Migration
 
             $table->string('title');
             $table->string('description');
-            $table->string('severity');
+            $table->string('severity', 6);
+
+            $table->boolean('active')->default(1);
 
             $table->integer('category_id')->unsigned()->nullable();
             $table->foreign('category_id')->references('id')->on('categories');
+
+            $table->integer('project_id')->unsigned()->nullable();
+            $table->foreign('project_id')->references('id')->on('projects');
 
             $table->integer('level_id')->unsigned()->nullable();
             $table->foreign('level_id')->references('id')->on('levels');

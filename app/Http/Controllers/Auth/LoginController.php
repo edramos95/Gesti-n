@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Project;
 
 class LoginController extends Controller
 {
@@ -35,5 +36,22 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    protected function authenticated()
+    {
+        $user = auth()->user();
+
+        if(! $user->selected_project_id)
+        {
+            if($user->is_admin || $user->is_client)
+            {
+                $user->selected_project_id = Project::first()->id;
+            }else{
+                //Support
+                $user->selected_project_id = $user->projects->first()->id;
+            }
+            $user->save();
+        }
     }
 }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-03-2018 a las 05:55:24
+-- Tiempo de generación: 26-04-2018 a las 21:38:47
 -- Versión del servidor: 10.1.21-MariaDB
 -- Versión de PHP: 7.1.1
 
@@ -29,8 +29,8 @@ SET time_zone = "+00:00";
 CREATE TABLE `categories` (
   `id` int(10) UNSIGNED NOT NULL,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `project_id` int(10) UNSIGNED NOT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -39,11 +39,12 @@ CREATE TABLE `categories` (
 -- Volcado de datos para la tabla `categories`
 --
 
-INSERT INTO `categories` (`id`, `name`, `description`, `project_id`, `created_at`, `updated_at`) VALUES
-(1, 'Categoría A1', '', 1, '2018-02-23 09:46:15', '2018-02-23 09:46:15'),
-(2, 'Categoría A2', '', 1, '2018-02-23 09:46:15', '2018-02-23 09:46:15'),
-(3, 'Categoría B1', '', 2, '2018-02-23 09:46:15', '2018-02-23 09:46:15'),
-(4, 'Categoría B2', '', 2, '2018-02-23 09:46:15', '2018-02-23 09:46:15');
+INSERT INTO `categories` (`id`, `name`, `project_id`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(1, 'Categoría A1', 1, NULL, '2018-04-18 04:53:30', '2018-04-18 04:53:30'),
+(2, 'Categoría A2', 1, NULL, '2018-04-18 04:53:31', '2018-04-18 04:53:31'),
+(3, 'Categoría B1', 2, NULL, '2018-04-18 04:53:31', '2018-04-18 04:53:31'),
+(4, 'Categoría B2', 2, NULL, '2018-04-18 04:53:31', '2018-04-18 04:53:31'),
+(5, 'Soporte de ejemplo', 3, NULL, '2018-04-23 17:17:06', '2018-04-23 17:17:24');
 
 -- --------------------------------------------------------
 
@@ -55,8 +56,10 @@ CREATE TABLE `incidents` (
   `id` int(10) UNSIGNED NOT NULL,
   `title` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `severity` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `severity` varchar(6) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '1',
   `category_id` int(10) UNSIGNED DEFAULT NULL,
+  `project_id` int(10) UNSIGNED DEFAULT NULL,
   `level_id` int(10) UNSIGNED DEFAULT NULL,
   `client_id` int(10) UNSIGNED NOT NULL,
   `support_id` int(10) UNSIGNED DEFAULT NULL,
@@ -68,9 +71,10 @@ CREATE TABLE `incidents` (
 -- Volcado de datos para la tabla `incidents`
 --
 
-INSERT INTO `incidents` (`id`, `title`, `description`, `severity`, `category_id`, `level_id`, `client_id`, `support_id`, `created_at`, `updated_at`) VALUES
-(2, 'Incidencia de prueba', 'Descripción de prueba', 'Menor', NULL, NULL, 2, NULL, '2018-02-23 09:47:58', '2018-02-23 09:47:58'),
-(3, 'Putas', 'Error de prueba #PPCDSALVC', 'Menor', NULL, NULL, 2, NULL, '2018-02-23 10:39:31', '2018-02-23 10:39:31');
+INSERT INTO `incidents` (`id`, `title`, `description`, `severity`, `active`, `category_id`, `project_id`, `level_id`, `client_id`, `support_id`, `created_at`, `updated_at`) VALUES
+(1, 'Primera incidencia', 'Página se cierra sola', 'Mayor', 1, 2, 1, 2, 2, 3, '2018-04-18 04:53:32', '2018-04-23 17:23:38'),
+(2, 'Prueba de ejemplo', 'Prueba de ejemplo', 'Mayor', 1, NULL, 1, 1, 1, NULL, '2018-04-23 17:12:36', '2018-04-23 17:12:36'),
+(3, 'Prueba de ejemplo', 'Prueba de ejemplo', 'Mayor', 1, 1, 1, 1, 1, NULL, '2018-04-23 17:13:10', '2018-04-23 17:13:10');
 
 -- --------------------------------------------------------
 
@@ -82,9 +86,21 @@ CREATE TABLE `levels` (
   `id` int(10) UNSIGNED NOT NULL,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `project_id` int(10) UNSIGNED NOT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `levels`
+--
+
+INSERT INTO `levels` (`id`, `name`, `project_id`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(1, 'Atención por teléfono', 1, NULL, '2018-04-18 04:53:31', '2018-04-18 04:53:31'),
+(2, 'Soporte técnico', 1, NULL, '2018-04-18 04:53:31', '2018-04-18 04:53:31'),
+(3, 'Mesa de ayuda', 2, NULL, '2018-04-18 04:53:31', '2018-04-18 04:53:31'),
+(4, 'Consulta especializada', 2, NULL, '2018-04-18 04:53:31', '2018-04-18 04:53:31'),
+(5, 'Reinstalación de ejemplo', 3, NULL, '2018-04-23 17:17:45', '2018-04-23 17:18:12');
 
 -- --------------------------------------------------------
 
@@ -103,12 +119,15 @@ CREATE TABLE `migrations` (
 --
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(25, '2014_10_12_000000_create_users_table', 1),
-(26, '2014_10_12_100000_create_password_resets_table', 1),
-(27, '2018_02_23_013634_create_projects_table', 1),
-(28, '2018_02_23_013958_create_categories_table', 1),
-(29, '2018_02_23_014318_create_levels_table', 1),
-(30, '2018_02_23_014401_create_incidents_table', 1);
+(126, '2018_02_23_013634_create_projects_table', 1),
+(173, '2014_02_23_013634_create_projects_table', 2),
+(174, '2014_10_12_000000_create_users_table', 2),
+(175, '2014_10_12_100000_create_password_resets_table', 2),
+(176, '2018_02_23_013958_create_categories_table', 2),
+(177, '2018_02_23_014318_create_levels_table', 2),
+(178, '2018_02_23_014401_create_incidents_table', 2),
+(179, '2018_04_16_174658_create_project_user_table', 2),
+(180, '2018_04_17_224808_create_messages_table', 2);
 
 -- --------------------------------------------------------
 
@@ -132,6 +151,8 @@ CREATE TABLE `projects` (
   `id` int(10) UNSIGNED NOT NULL,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `start` date DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -140,9 +161,10 @@ CREATE TABLE `projects` (
 -- Volcado de datos para la tabla `projects`
 --
 
-INSERT INTO `projects` (`id`, `name`, `description`, `created_at`, `updated_at`) VALUES
-(1, 'Proyecto A', 'El proyecto A consiste en desarrollar un sitio web moderno.', '2018-02-23 09:46:14', '2018-02-23 09:46:14'),
-(2, 'Proyecto B', 'El proyecto B consiste en desarrollar una App Android.', '2018-02-23 09:46:15', '2018-02-23 09:46:15');
+INSERT INTO `projects` (`id`, `name`, `description`, `start`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(1, 'Proyecto A', 'El proyecto A consiste en desarrollar un sitio web moderno.', NULL, NULL, '2018-04-18 04:53:30', '2018-04-18 04:53:30'),
+(2, 'Proyecto B', 'El proyecto B consiste en desarrollar una App Android.', NULL, NULL, '2018-04-18 04:53:30', '2018-04-18 04:53:30'),
+(3, 'Proyecto de prueba', 'Descripción de prueba', '2018-04-23', NULL, '2018-04-23 17:15:19', '2018-04-23 17:16:17');
 
 -- --------------------------------------------------------
 
@@ -156,7 +178,9 @@ CREATE TABLE `users` (
   `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `role` smallint(6) NOT NULL DEFAULT '2',
+  `selected_project_id` int(10) UNSIGNED DEFAULT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -165,10 +189,10 @@ CREATE TABLE `users` (
 -- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Eduardo', 'ed_ramos95@hotmail.com', '$2y$10$fRjFtPklZV1cUhTWit1K4eMOgvTDDCk0OlLn5qAIBLXAVL7mcQEue', 0, 'bWIUEyDPegcn4wEARHFmhjTMraLMA9vxOTs7nnxLJPLkDUbzebmhf7vG3IUC', '2018-02-23 09:46:14', '2018-02-23 09:46:14'),
-(2, 'Delia', 'delia_lopez01@hotmail.com', '$2y$10$LBi2y4WnnGzXanLP3NqtSezebjdlt7RiWVPVcAZGqIn29LIgTe0IC', 1, '8FR4n2wLZBggi6b8vrks1hU5pTTx0kKxyIikrj5lTytm5tNnp4nnEOLWmJcV', '2018-02-23 09:46:14', '2018-02-23 09:46:14'),
-(3, 'Jonathan', 'jony_sn04@hotmail.com', '$2y$10$7u2Jg0vuHv0HoU5vLeA11eMdUpFEzQktlRXkh4Z9GtBLum3GpXN5C', 2, NULL, '2018-02-23 09:46:14', '2018-02-23 09:46:14');
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `selected_project_id`, `remember_token`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(1, 'Eduardo Luis Ramos López', 'ed_ramos95@hotmail.com', '$2y$10$5Fxp6qJHGeSxVFMZ3RJsZuly2AGgccA1thz4s40bkOzjt9Iaif4k6', 0, 2, 'b9KsQ6PuDyRzlMqcHvdqwaGttHnN667R9tIcOm6RqgU8A2erJTftOWuFVueT', NULL, '2018-04-18 04:53:30', '2018-04-26 19:36:12'),
+(2, 'Jonathan Ivan Quiroz López', 'jony_sn04@hotmail.com', '$2y$10$nhU/Od..y55hoaPVEGFCaON.tPytVWUiudda4gK021bzHr43mcxkq', 2, 3, '7IpgvZ2WMTByya2Vv6wVuWXHZfxcnPmCM1f8FtL20Q394vDBby2UI99jCDUt', NULL, '2018-04-18 04:53:30', '2018-04-26 19:28:17'),
+(3, 'Delia del Carmen López Rivera', 'delia_lopez01@hotmail.com', '$2y$10$nPFdH83CkdGiBPb/S.RNtuEooQgiuuz5gSftODOvzliYP3kTf1AX2', 1, 1, 'USs7JnyvUEHLTbMUAP85D6LlJJiCptPjV44GebEODfLZfQLKPuG9NiSOwvdw', NULL, '2018-04-18 04:53:31', '2018-04-26 19:27:55');
 
 --
 -- Índices para tablas volcadas
@@ -187,6 +211,7 @@ ALTER TABLE `categories`
 ALTER TABLE `incidents`
   ADD PRIMARY KEY (`id`),
   ADD KEY `incidents_category_id_foreign` (`category_id`),
+  ADD KEY `incidents_project_id_foreign` (`project_id`),
   ADD KEY `incidents_level_id_foreign` (`level_id`),
   ADD KEY `incidents_client_id_foreign` (`client_id`),
   ADD KEY `incidents_support_id_foreign` (`support_id`);
@@ -221,7 +246,8 @@ ALTER TABLE `projects`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `users_email_unique` (`email`);
+  ADD UNIQUE KEY `users_email_unique` (`email`),
+  ADD KEY `users_selected_project_id_foreign` (`selected_project_id`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -231,7 +257,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT de la tabla `incidents`
 --
@@ -241,17 +267,17 @@ ALTER TABLE `incidents`
 -- AUTO_INCREMENT de la tabla `levels`
 --
 ALTER TABLE `levels`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT de la tabla `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=181;
 --
 -- AUTO_INCREMENT de la tabla `projects`
 --
 ALTER TABLE `projects`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT de la tabla `users`
 --
@@ -274,6 +300,7 @@ ALTER TABLE `incidents`
   ADD CONSTRAINT `incidents_category_id_foreign` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`),
   ADD CONSTRAINT `incidents_client_id_foreign` FOREIGN KEY (`client_id`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `incidents_level_id_foreign` FOREIGN KEY (`level_id`) REFERENCES `levels` (`id`),
+  ADD CONSTRAINT `incidents_project_id_foreign` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`),
   ADD CONSTRAINT `incidents_support_id_foreign` FOREIGN KEY (`support_id`) REFERENCES `users` (`id`);
 
 --
@@ -281,6 +308,12 @@ ALTER TABLE `incidents`
 --
 ALTER TABLE `levels`
   ADD CONSTRAINT `levels_project_id_foreign` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`);
+
+--
+-- Filtros para la tabla `users`
+--
+ALTER TABLE `users`
+  ADD CONSTRAINT `users_selected_project_id_foreign` FOREIGN KEY (`selected_project_id`) REFERENCES `projects` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

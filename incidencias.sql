@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-04-2018 a las 21:38:47
+-- Tiempo de generación: 29-05-2018 a las 04:14:56
 -- Versión del servidor: 10.1.21-MariaDB
 -- Versión de PHP: 7.1.1
 
@@ -40,11 +40,10 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`id`, `name`, `project_id`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, 'Categoría A1', 1, NULL, '2018-04-18 04:53:30', '2018-04-18 04:53:30'),
-(2, 'Categoría A2', 1, NULL, '2018-04-18 04:53:31', '2018-04-18 04:53:31'),
-(3, 'Categoría B1', 2, NULL, '2018-04-18 04:53:31', '2018-04-18 04:53:31'),
-(4, 'Categoría B2', 2, NULL, '2018-04-18 04:53:31', '2018-04-18 04:53:31'),
-(5, 'Soporte de ejemplo', 3, NULL, '2018-04-23 17:17:06', '2018-04-23 17:17:24');
+(1, 'Categoría A1', 1, NULL, '2018-04-27 17:11:54', '2018-04-27 17:11:54'),
+(2, 'Categoría A2', 1, NULL, '2018-04-27 17:11:55', '2018-04-27 17:11:55'),
+(3, 'Categoría B1', 2, NULL, '2018-04-27 17:11:55', '2018-04-27 17:11:55'),
+(4, 'Categoría B2', 2, NULL, '2018-04-27 17:11:55', '2018-04-27 17:11:55');
 
 -- --------------------------------------------------------
 
@@ -72,9 +71,7 @@ CREATE TABLE `incidents` (
 --
 
 INSERT INTO `incidents` (`id`, `title`, `description`, `severity`, `active`, `category_id`, `project_id`, `level_id`, `client_id`, `support_id`, `created_at`, `updated_at`) VALUES
-(1, 'Primera incidencia', 'Página se cierra sola', 'Mayor', 1, 2, 1, 2, 2, 3, '2018-04-18 04:53:32', '2018-04-23 17:23:38'),
-(2, 'Prueba de ejemplo', 'Prueba de ejemplo', 'Mayor', 1, NULL, 1, 1, 1, NULL, '2018-04-23 17:12:36', '2018-04-23 17:12:36'),
-(3, 'Prueba de ejemplo', 'Prueba de ejemplo', 'Mayor', 1, 1, 1, 1, 1, NULL, '2018-04-23 17:13:10', '2018-04-23 17:13:10');
+(1, 'Primera incidencia', 'Página se cierra sola', 'Normal', 0, 2, 1, 1, 2, 3, '2018-04-27 17:11:56', '2018-05-29 00:18:27');
 
 -- --------------------------------------------------------
 
@@ -96,11 +93,10 @@ CREATE TABLE `levels` (
 --
 
 INSERT INTO `levels` (`id`, `name`, `project_id`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, 'Atención por teléfono', 1, NULL, '2018-04-18 04:53:31', '2018-04-18 04:53:31'),
-(2, 'Soporte técnico', 1, NULL, '2018-04-18 04:53:31', '2018-04-18 04:53:31'),
-(3, 'Mesa de ayuda', 2, NULL, '2018-04-18 04:53:31', '2018-04-18 04:53:31'),
-(4, 'Consulta especializada', 2, NULL, '2018-04-18 04:53:31', '2018-04-18 04:53:31'),
-(5, 'Reinstalación de ejemplo', 3, NULL, '2018-04-23 17:17:45', '2018-04-23 17:18:12');
+(1, 'Atención por teléfono', 1, NULL, '2018-04-27 17:11:55', '2018-04-27 17:11:55'),
+(2, 'Soporte técnico', 1, NULL, '2018-04-27 17:11:55', '2018-04-27 17:11:55'),
+(3, 'Mesa de ayuda', 2, NULL, '2018-04-27 17:11:55', '2018-04-27 17:11:55'),
+(4, 'Consulta especializada', 2, NULL, '2018-04-27 17:11:55', '2018-04-27 17:11:55');
 
 -- --------------------------------------------------------
 
@@ -120,14 +116,16 @@ CREATE TABLE `migrations` (
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (126, '2018_02_23_013634_create_projects_table', 1),
-(173, '2014_02_23_013634_create_projects_table', 2),
-(174, '2014_10_12_000000_create_users_table', 2),
-(175, '2014_10_12_100000_create_password_resets_table', 2),
-(176, '2018_02_23_013958_create_categories_table', 2),
-(177, '2018_02_23_014318_create_levels_table', 2),
-(178, '2018_02_23_014401_create_incidents_table', 2),
-(179, '2018_04_16_174658_create_project_user_table', 2),
-(180, '2018_04_17_224808_create_messages_table', 2);
+(181, '2014_02_23_013634_create_projects_table', 2),
+(182, '2014_10_12_000000_create_users_table', 2),
+(183, '2014_10_12_100000_create_password_resets_table', 2),
+(184, '2018_02_23_013958_create_categories_table', 2),
+(185, '2018_02_23_014318_create_levels_table', 2),
+(186, '2018_02_23_014401_create_incidents_table', 2),
+(187, '2018_04_16_174658_create_project_user_table', 2),
+(188, '2018_04_17_224808_create_messages_table', 2),
+(189, '2018_04_27_110529_create_user_computers_table', 2),
+(190, '2018_05_28_172240_create_evaluations_table', 3);
 
 -- --------------------------------------------------------
 
@@ -162,9 +160,8 @@ CREATE TABLE `projects` (
 --
 
 INSERT INTO `projects` (`id`, `name`, `description`, `start`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, 'Proyecto A', 'El proyecto A consiste en desarrollar un sitio web moderno.', NULL, NULL, '2018-04-18 04:53:30', '2018-04-18 04:53:30'),
-(2, 'Proyecto B', 'El proyecto B consiste en desarrollar una App Android.', NULL, NULL, '2018-04-18 04:53:30', '2018-04-18 04:53:30'),
-(3, 'Proyecto de prueba', 'Descripción de prueba', '2018-04-23', NULL, '2018-04-23 17:15:19', '2018-04-23 17:16:17');
+(1, 'Proyecto A', 'El proyecto A consiste en desarrollar un sitio web moderno.', NULL, NULL, '2018-04-27 17:11:54', '2018-04-27 17:11:54'),
+(2, 'Proyecto B', 'El proyecto B consiste en desarrollar una App Android.', NULL, NULL, '2018-04-27 17:11:54', '2018-04-27 17:11:54');
 
 -- --------------------------------------------------------
 
@@ -190,9 +187,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `selected_project_id`, `remember_token`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, 'Eduardo Luis Ramos López', 'ed_ramos95@hotmail.com', '$2y$10$5Fxp6qJHGeSxVFMZ3RJsZuly2AGgccA1thz4s40bkOzjt9Iaif4k6', 0, 2, 'b9KsQ6PuDyRzlMqcHvdqwaGttHnN667R9tIcOm6RqgU8A2erJTftOWuFVueT', NULL, '2018-04-18 04:53:30', '2018-04-26 19:36:12'),
-(2, 'Jonathan Ivan Quiroz López', 'jony_sn04@hotmail.com', '$2y$10$nhU/Od..y55hoaPVEGFCaON.tPytVWUiudda4gK021bzHr43mcxkq', 2, 3, '7IpgvZ2WMTByya2Vv6wVuWXHZfxcnPmCM1f8FtL20Q394vDBby2UI99jCDUt', NULL, '2018-04-18 04:53:30', '2018-04-26 19:28:17'),
-(3, 'Delia del Carmen López Rivera', 'delia_lopez01@hotmail.com', '$2y$10$nPFdH83CkdGiBPb/S.RNtuEooQgiuuz5gSftODOvzliYP3kTf1AX2', 1, 1, 'USs7JnyvUEHLTbMUAP85D6LlJJiCptPjV44GebEODfLZfQLKPuG9NiSOwvdw', NULL, '2018-04-18 04:53:31', '2018-04-26 19:27:55');
+(1, 'Eduardo', 'ed_ramos95@hotmail.com', '$2y$10$4mC1K.eyRRkAZs545YOTHOaBBB0bh9DEAB7LnGAcFBlMuIM8aBmiW', 0, 1, 'ar7cauAp9aaUkd1xOUdc66bLli3Q5ajt1CwTmIm7gAlfbOMXCKpPzLdMZ1L4', NULL, '2018-04-27 17:11:54', '2018-05-10 02:20:20'),
+(2, 'Jonathan', 'jony_sn04@hotmail.com', '$2y$10$wUkg5q7LoGB5qyxL5V2Qne6vjn8Rf7zMI339WBOyHB5dozEcDtD86', 2, 1, 'Y736VcD01NQzgWKv2DiSmvhlYrM9y554fLSb2JVLIeiEhhbhLzDEtWuilX1s', NULL, '2018-04-27 17:11:54', '2018-05-10 03:04:54'),
+(3, 'Delia', 'delia_lopez01@hotmail.com', '$2y$10$e4Hl.J9CjBfnHZrYXW0NA.qgrLRmnCuSC9UdCPwlRLb2EzMPkfxj6', 1, 1, 'U94RbbOq0AlxpNJuKAAaYWLi6F7JV5BolByrUNEGj12wvXdYGvU8D9m3A2z9', NULL, '2018-04-27 17:11:55', '2018-05-10 03:04:29');
 
 --
 -- Índices para tablas volcadas
@@ -257,27 +254,27 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT de la tabla `incidents`
 --
 ALTER TABLE `incidents`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `levels`
 --
 ALTER TABLE `levels`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT de la tabla `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=181;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=191;
 --
 -- AUTO_INCREMENT de la tabla `projects`
 --
 ALTER TABLE `projects`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `users`
 --

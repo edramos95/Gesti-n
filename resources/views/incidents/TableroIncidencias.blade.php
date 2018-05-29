@@ -41,4 +41,39 @@
 	@endforeach
 	</tbody>
 </table>
+<table class="table table-hover">
+	<thead>
+		<h2>INCIDENCIAS CALIFICADAS</h2>
+		<tr>
+			<th>Código</th>
+			<th>Cliente</th>
+			<th>Soporte</th>
+			<th>Nivel de Satisfacción</th>
+			<th>Nivel de Tiempo</th>
+			<th>Nivel de Desarrollo</th>
+			<th>Nivel de Recomendación</th>
+			<th>Nivel de Trato</th>
+			<th>Calificación Total</th>
+			<th>Comentarios</th>
+			<th>Fecha de evaluación</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach($evaluation as $e)
+		<tr>
+			<td>{{$e->id}}</td>
+			<td>{{$e->client_id}}</td>
+			<td>{{$e->support_id}}</td>
+			<td>{{$e->satisfaccion}}</td>
+			<td>{{$e->tiempo}}</td>
+			<td>{{$e->desarrollo}}</td>
+			<td>{{$e->recomendacion}}</td>
+			<td>{{$e->trato}}</td>
+			<td>{{$e->calificacion}}/25</td>
+			<td>{{$e->comentario}}</td>
+			<td>{{$e->created_at}}</td>
+		</tr>
+		@endforeach
+	</tbody>
+</table>
 @stop

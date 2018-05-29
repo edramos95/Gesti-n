@@ -8,6 +8,7 @@ use App\Incident;
 use App\Project;
 use App\ProjectUSer;
 use App\Level;
+use App\Evaluation;
 
 class IncidentController extends Controller
 {
@@ -180,7 +181,8 @@ class IncidentController extends Controller
     public function board()
     {
         $incidents = Incident::all();
+        $evaluation = Evaluation::all();
 
-        return view('incidents.TableroIncidencias', compact('incidents'));
+        return view('incidents.TableroIncidencias', compact('incidents', 'evaluation'));
     }
 }

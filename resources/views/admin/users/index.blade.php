@@ -49,7 +49,7 @@
                             <tbody>
                                 @foreach($users as $user)
                                 <tr>
-                                    <td>{{$user->email}}</td>
+                                    <td><a href="{{url('/show')}}/{{$user->id}}">{{$user->email}}</a></td>
                                     <td>{{$user->name}}</td>
                                     <td>
                                         @if($user->role==0)
@@ -67,6 +67,13 @@
                                         <a href="{{url('/usuario')}}/{{$user->id}}/eliminar
                                             " class="btn btn-sm btn-danger" title="Dar de baja">
                                             <span class="glyphicon glyphicon-remove"></span></a>
+                                        <a href="{{url('/configuracion')}}/{{$user->id}}
+                                            " class="btn btn-sm btn-success" title="Registrar equipo">
+                                            <span class="glyphicon glyphicon-list-alt"></span>
+                                        </a>
+                                        <a href="{{url('/equipos')}}/{{$user->id}}" class="btn btn-sm btn-info" title="Consultar equipo registrado">
+                                            <span class="glyphicon glyphicon-search"></span>
+                                        </a>
                                     </td>
                                 </tr>
                                 @endforeach

@@ -27,7 +27,7 @@ Route::post('/reportar', 'IncidentController@store');
 
 Route::get('/ver/{id}', 'IncidentController@show');
 
-Route::get('/IncidenciasPDF', 'IncidentController@pdf');
+Route::get('/Incidencia@show', 'IncidentController@show');
 
 Route::get('/TableroIncidencias', 'IncidentController@board');
 
@@ -39,6 +39,10 @@ Route::get('/TableroIncidencias', 'IncidentController@board');
 	Route::get('/incidencia/{id}/resolver', 'IncidentController@solve');
 	Route::get('/incidencia/{id}/abrir', 'IncidentController@open');
 	Route::get('/incidencia/{id}/derivar', 'IncidentController@nextLevel');
+	Route::get('/evaluar/{id}', 'EvaluationController@index');
+	Route::post('/evaluar/{id}', 'EvaluationController@store');
+
+	Route::get('/IncidenciasPDF', 'IncidentController@pdf');
 
 	//Message
 	Route::post('/mensajes', 'MessageController@store');
@@ -52,6 +56,10 @@ Route::group(['middleware' => 'admin', 'namespace' => 'Admin'], function (){
 
 	Route::get('/usuario/{id}/eliminar', 'UserController@delete');
 
+	Route::get('/configuracion/{id}', 'UserComputerController@index');
+	Route::post('/configuracion/{id}', 'UserComputerController@store');
+
+	Route::get('/equipos/{id}', 'UserComputerController@show');
 
 	//Projects
 	Route::get('/proyectos', 'ProjectController@index');
@@ -76,6 +84,4 @@ Route::group(['middleware' => 'admin', 'namespace' => 'Admin'], function (){
 	//Project-User
 	Route::post('/proyecto-usuario/', 'ProjectUserController@store');
 	Route::get('/proyecto-usuario/{id}/eliminar', 'ProjectUserController@delete');
-
-	Route::get('/config', 'ConfigController@index');
 });

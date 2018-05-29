@@ -71,6 +71,7 @@
                             <a href="/incidencia/{{$incident->id}}/resolver" class="btn btn-success btn-sm" id="incident_btn_solver">Marcar como resuelto</a>
                         @else
                             <a href="/incidencia/{{$incident->id}}/abrir" class="btn btn-info btn-sm" id="incident_btn_open">Volver a abrir incidencia</a>
+                            <a href="/evaluar/{{$incident->id}}" class="btn btn-link btn-sm">Evaluar atención a usuario</a> 
                         @endif
                     @endif
 
